@@ -54,6 +54,7 @@ class Renderer
 		sf::RenderWindow* mWindow;
 		int mWindowWidth;
 		int mWindowHeight;
+		
 };
 
 #endif

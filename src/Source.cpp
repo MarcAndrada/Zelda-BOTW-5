@@ -1,6 +1,7 @@
 #include "singletons.h"
 #include "Scene.h"
 
+
 unsigned int global_delta_time;
 Scene* currentScene = NULL;
 

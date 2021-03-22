@@ -2,7 +2,8 @@
 #define SCENEGAME_H
 
 #include "Scene.h"
-
+#include "Link.h"
+#include "Entity.h"
 
 class SceneGame : public Scene
 {
@@ -26,6 +27,9 @@ class SceneGame : public Scene
 		virtual void renderEnd();
 
 		virtual void renderGUI();
+		
+		void initMap();
+
 
 	private:
 		C_Rectangle		rect1;
@@ -36,6 +40,9 @@ class SceneGame : public Scene
 		int				sprite_frame_time;
 		int sprite_x;
 		int sprite_y;
+		std::vector<std::vector<bool>> mpCollisionMap;
+
+		Link* player;
 };
 
 

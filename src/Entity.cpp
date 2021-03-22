@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "singletons.h"
 Entity::Entity(){
 	mpRect = C_Rectangle{ 0,0,TILE_SIZE,TILE_SIZE };
 	mMapWidth = 0;
@@ -12,7 +13,6 @@ Entity::Entity(){
 	mpYtoGo = 0;
 
 	mpAlive = true;
-	state = false;
 }
 
 Entity ::~Entity(){
@@ -38,8 +38,7 @@ void Entity::update(){
 }
 
 void Entity::render(){
-
-		ofDrawRectangle(mpRect.x, mpRect.y, mpRect.w, mpRect.h);
+	sRenderer->drawSprite(sprite_id, sprite_x, sprite_y, sprite_rect);
 
 }
 
@@ -60,24 +59,11 @@ int Entity::collidesWithEntity(Entity* ent){
 	
 }
 
-void Entity::changeState(){
-	state = true;
-	currentSpeed = mpSpeed;
-	mpSpeed + 30;
-	//empezar el timer de 5 s y cuando acabe ponerlo en false y la velocidad normal y que no se coma los fantasmas
-	
-
-}
 
 void Entity::setAlive(bool alive){
 	mpAlive = alive;
 }
 
-void Entity::speedUp()
-{
-	mpSpeed += 50;
-
-}
 
 Directions Entity::getNextDirection(){
 	return NONE;

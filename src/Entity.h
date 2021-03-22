@@ -17,11 +17,8 @@ public:
 	C_Rectangle getRect() { return mpRect; };
 	int collidesWithEntity(Entity* ent);
 	virtual Classes getClassName() { return ENTITY; };
-	void changeState();
-	bool getState() { return state; }
 	bool isAlive() { return mpAlive; }
 	void setAlive(bool alive);
-	void speedUp();
 
 protected:
 
@@ -40,8 +37,14 @@ protected:
 	int mpXtoGo;
 	int mpYtoGo;
 	bool mpAlive;
-	bool state;
-	int PUTime;
+
+
+	int				sprite_id;
+	C_Rectangle		sprite_rect;
+	int				sprite_frame;
+	int				sprite_frame_time;
+	int sprite_x;
+	int sprite_y;
 
 	
 };
