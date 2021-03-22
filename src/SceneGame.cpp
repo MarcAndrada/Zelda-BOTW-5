@@ -18,8 +18,8 @@ void SceneGame::unLoad()
 }
 
 void SceneGame::init(){
-	sprite_id = sResManager->getSpriteID("Assets/sanic.png");
-	sprite_rect = C_Rectangle{ 0,0,78, 82 };
+	sprite_id = sResManager->getSpriteID("Assets/link.png");
+	sprite_rect = C_Rectangle{ 0, 0, 78, 82 };
 	sprite_frame = 0;
 	sprite_frame_time = 0;
 	sprite_x = 50;

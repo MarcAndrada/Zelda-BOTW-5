@@ -53,8 +53,6 @@ void SceneMenu::update(){
 				break;
 			case CONTINUE:
 				mOptionSelector = C_Rectangle{ 850, 290, 71, 21 };
-				if (sInput->isKeyPressed(Input::SPACE)) {
-				}
 				break;
 			case NEW_GAME:
 				if (sInput->isKeyPressed(Input::SPACE)) {
@@ -64,21 +62,14 @@ void SceneMenu::update(){
 				break;
 			case OPTIONS:
 				mOptionSelector = C_Rectangle{ 860, 350, 60, 20 };
-				if (sInput->isKeyPressed(Input::SPACE)) {
-				}
 				break;
 			case EXIT:
 				mOptionSelector = C_Rectangle{ 870, 380, 44, 27 };
 				if (sInput->isKeyPressed(Input::SPACE)) {
-					
 					sInput->closeWindow();
 				}
 				break;
 		} 
-
-		if (sInput->isKeyPressed(Input::SPACE)){
-			sSoundManager->playSound("assets/Audios/coin.wav");
-		}
 			
 	
 	
