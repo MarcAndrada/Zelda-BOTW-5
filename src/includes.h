@@ -11,7 +11,7 @@
 #include <stack>
 #include "math.h"
 
-#define WINDOW_TITLE "My Game"
+#define WINDOW_TITLE "Zelda Breath of The Wild 5"
 #define SCREEN_WIDTH 960
 #define SCREEN_HEIGHT 540
 

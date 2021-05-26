@@ -29,7 +29,8 @@ class SceneGame : public Scene
 		virtual void renderGUI();
 		
 		void initMap();
-
+		void StartGame();
+		void SaveLastMapStaus();
 
 	private:
 		C_Rectangle		rect1;
@@ -41,6 +42,8 @@ class SceneGame : public Scene
 		int sprite_x;
 		int sprite_y;
 		std::vector<std::vector<bool>> mpCollisionMap;
+		std::string CurrentMap;
+
 
 		Link* player;
 };

@@ -1,5 +1,8 @@
 #include "SceneGame.h"
 #include "singletons.h"
+#include "SceneDirector.h"
+
+
 
 SceneGame::SceneGame() : Scene(){
 	init();
@@ -16,7 +19,10 @@ void SceneGame::preLoad(){
 void SceneGame::unLoad()
 {
 }
-
+/* --!
+	*
+	*
+	*/
 void SceneGame::init(){
 	/*sprite_id = sResManager->getSpriteID("Assets/link.png");
 	sprite_rect = C_Rectangle{ 0,0,78, 82 };
@@ -27,6 +33,15 @@ void SceneGame::init(){
 	rect1 = C_Rectangle{ 20,30,200,100 };
 	rect2 = C_Rectangle{ 60,200,50,100 };*/
 	player = new Link();
+
+	/* --!
+	* Dependiendo de lo que se haya seleccionado se derivan 2 acciones
+	* continuar la partida
+	* Empezar de cero, borrar todos los mapas de anteriores partidas y el estado del jugador
+	*/
+
+	CurrentMap = "Maps/map_1.txt";
+	initMap();
 }
 
 void SceneGame::updateBegin(){
@@ -66,6 +81,12 @@ void SceneGame::update() {
 		sprite_y -= 10;
 	}
 	
+	if (sInput->isKeyPressed(Input::ESCAPE))
+	{
+
+
+		sDirector->changeScene(SceneDirector::MAIN_MENU, false);
+	}
 }
 
 void SceneGame::updateEnd(){
@@ -92,12 +113,13 @@ void SceneGame::renderGUI(){
 
 void SceneGame::initMap(){
 	std::fstream Map;
-	Map.open("map.txt", std::ios::in);
+	Map.open(CurrentMap, std::ios::in);
 	if (!Map.is_open()) {
-		std::cout << "Error" << std::endl;
+		std::cout << "Error Map not found" << std::endl;
 		system("pause");
 		exit(0);
 	}
+
 	std::string line;
 	std::getline(Map, line);
 	int width = atoi(line.c_str());
@@ -120,27 +142,64 @@ void SceneGame::initMap(){
 				mpCollisionMap[i][j] = true;
 				break;
 			case 'P':
-				//crear Pacman
+				//crear Player
 				player->init(j * TILE_SIZE, i * TILE_SIZE);
 				player->setCollisionsMap(&mpCollisionMap, width, height);
 				break;
 			case '.':
-			{
-				//crear punto
-				
-			}break;
+			
+				//crear Gema
+				break;
+			
 
 			case 'O':
-			{
-				//crear powerup
-				
-			}break;
-			case 'F':
-				//crear Fantasma
+			
+				//crear Enemigo 1
 				
 				break;
+			case 'F':
+				//crear Enemigo 2
+				
+				break;
+
+			
+			case 'J':
+				//crear Enemigo 3
+
+				break;
+
+			case 'K':
+				//crear Llave
+
+				break;
+			case 'C':
+				//crear Cofre
+
+				break;
+				
 			}
 		}
 	}
 	Map.close();
 }
+
+void SceneGame::StartGame(){
+
+	if (sDirector->checkCurrentScene('R'))
+	{
+		CurrentMap = "Maps/LastMapSaved.txt";
+		//load player status
+	}
+	else if (sDirector->checkCurrentScene('N'))
+	{
+		CurrentMap = "Maps/map_1.txt";
+		//borrar mapas guardados (LastMapSaved.txt, Map_1_saved.txt ...)
+		// Y borrar player status
+	}
+}
+
+void SceneGame::SaveLastMapStaus(){
+	//Guardar el estado del mapa (enemigos, objetos ...) en el archivo de Maps/LastMapSaved.txt
+	//Guardar el estado del jugador(Posicion, objetos, vida ...)
+}
+

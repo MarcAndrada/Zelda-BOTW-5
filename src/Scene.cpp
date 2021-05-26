@@ -3,6 +3,7 @@
 
 Scene::Scene(){
 	mSceneLoaded = false;
+	mSceneEntered = false;
 }
 
 Scene::~Scene(){

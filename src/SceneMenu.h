@@ -37,6 +37,7 @@ class SceneMenu : public Scene
 		int				mMenuOption;
 		C_Rectangle		mOptionSelector;
 
+		Scene* sGame;
 };
 
 

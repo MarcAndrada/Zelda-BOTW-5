@@ -3,7 +3,7 @@
 
 #include "Utils.h"
 
-enum Directions{NONE, UP, DOWN, LEFT, RIGHT};
+enum Directions { NONE, UP, DOWN, LEFT, RIGHT };
 
 class  Entity {
 public:

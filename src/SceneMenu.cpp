@@ -1,6 +1,7 @@
 #include "SceneMenu.h"
 #include "singletons.h"
 
+
 SceneMenu::SceneMenu() : Scene(){
 
 }
@@ -54,11 +55,15 @@ void SceneMenu::update(){
 			case CONTINUE:
 				mOptionSelector = C_Rectangle{ 850, 290, 71, 21 };
 				if (sInput->isKeyPressed(Input::SPACE)) {
+					sDirector->changeScene(SceneDirector::RESUME_GAME, false);
+					sGame = sDirector->getGameScene();
 				}
 				break;
 			case NEW_GAME:
 				if (sInput->isKeyPressed(Input::SPACE)) {
-					sDirector->changeScene(SceneDirector::GAME, false);
+					sDirector->changeScene(SceneDirector::NEW_GAME, false);
+					sGame = sDirector->getGameScene();
+
 				}
 				mOptionSelector = C_Rectangle{ 840, 320, 80, 23 };
 				break;

@@ -47,6 +47,39 @@ void SceneDirector::goBack(bool load_on_return){
 	}
 }
 
+bool SceneDirector::checkCurrentScene(char WantedScene)
+{
+	/* --!
+	* Devuelve true o false dependiendo de si la escena coincide o no
+	* 
+	*/
+	switch (WantedScene)
+	{
+	case 'N':
+		if (mCurrentScene == mScenes[NEW_GAME]) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		break;
+
+	case 'R':
+		if (mCurrentScene == mScenes[RESUME_GAME]){
+			return true;
+		}
+		else{
+			return false;
+		}
+		break;
+	default:
+		break;
+	}
+
+
+	return false;
+}
+
 SceneDirector* SceneDirector::getInstance() {
 	if (instance == NULL){
 		instance = new SceneDirector();
@@ -55,18 +88,26 @@ SceneDirector* SceneDirector::getInstance() {
 	return instance;
 }
 
+
 void SceneDirector::initScenes(){
 	mScenes.resize(SceneDirector::LAST_NO_USE);
 
 	SceneMenu* scene_menu = new SceneMenu();
-	SceneGame* scene_game = new SceneGame();
 
 	mScenes[MAIN_MENU] = scene_menu;
-	mScenes[GAME] = scene_game;
-
-	for (int i = 0; i < LAST_NO_USE; i++){
+	
+	
+	for (int i = 0; i == MAIN_MENU; i++){
 		mScenes[i]->preLoad();
 	}
 
 	mCurrentScene = mScenes[MAIN_MENU];
+	SceneGame* scene_game = new SceneGame();
+	mScenes[RESUME_GAME] = scene_game;
+	mScenes[NEW_GAME] = scene_game;
+
+	for (int i = MAIN_MENU + 1; i < LAST_NO_USE; i++) {
+		mScenes[i]->preLoad();
+	}
+
 }

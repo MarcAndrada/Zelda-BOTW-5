@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "singletons.h"
+
 Entity::Entity(){
 	mpRect = C_Rectangle{ 0,0,TILE_SIZE,TILE_SIZE };
 	mMapWidth = 0;
@@ -13,9 +14,11 @@ Entity::Entity(){
 	mpYtoGo = 0;
 
 	mpAlive = true;
+	currentSpeed = 0;
 }
 
 Entity ::~Entity(){
+
 }
 
 void Entity::init(int x, int y){
