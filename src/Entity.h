@@ -19,6 +19,8 @@ public:
 	virtual Classes getClassName() { return ENTITY; };
 	bool isAlive() { return mpAlive; }
 	void setAlive(bool alive);
+	int GetMapPosX();
+	int GetMapPosY();
 
 protected:
 

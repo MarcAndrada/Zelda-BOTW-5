@@ -1,5 +1,5 @@
-#ifndef PACMAN_H
-#define PACMAN_H
+#ifndef LINK_H
+#define LINK_H
 
 #include "Utils.h"
 #include "Entity.h"

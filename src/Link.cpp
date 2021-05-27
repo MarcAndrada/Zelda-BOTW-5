@@ -2,7 +2,7 @@
 #include "singletons.h"
 
 Link::Link() : Entity() {
-	init(0,0);
+
 }
 
 Link ::~Link(){
@@ -10,9 +10,9 @@ Link ::~Link(){
 
 void Link::init(int x, int y){
 	sprite_id = sResManager->getSpriteID("Assets/link.png");
-	sprite_rect = C_Rectangle{ 0,0,25, 30 };
-	sprite_x = 100;
-	sprite_y = 100;
+	sprite_rect = C_Rectangle{ 0,0,32, 32 };
+	mpRect.x = x;
+	mpRect.y = y;
 	mpXtoGo = x;
 	mpYtoGo = y;
 }
@@ -25,6 +25,9 @@ void Link::update(){
 	else {
 		mpMoving = false;
 	}
+
+	sprite_x = mpRect.x;
+	sprite_y = mpRect.y;
 
 	/* --!
 	* Revisa si hay un input introducido  

@@ -5,7 +5,7 @@
 
 
 SceneGame::SceneGame() : Scene(){
-	init();
+
 }
 
 SceneGame::~SceneGame(){
@@ -33,6 +33,10 @@ void SceneGame::init(){
 	rect1 = C_Rectangle{ 20,30,200,100 };
 	rect2 = C_Rectangle{ 60,200,50,100 };*/
 	player = new Link();
+	Wall_sprite_id = sResManager->getSpriteID("Assets/Wall.png");
+	Floor_sprite_id = sResManager->getSpriteID("Assets/Floor.png");
+	Wall_sprite_rect = C_Rectangle{ 0,0,32, 32 };
+	Floor_sprite_rect = C_Rectangle{ 0,0,32, 32 };
 
 	/* --!
 	* Dependiendo de lo que se haya seleccionado se derivan 2 acciones
@@ -42,6 +46,7 @@ void SceneGame::init(){
 
 	CurrentMap = "Maps/map_1.txt";
 	initMap();
+
 }
 
 void SceneGame::updateBegin(){
@@ -61,24 +66,10 @@ void SceneGame::updateBegin(){
 }
 
 void SceneGame::update() {
-	sprite_rect.y = 0;
 	player->update();
 
 	if (sInput->isKeyPressed(Input::BACKSPACE)) {
 		sDirector->goBack();
-	}
-
-	if (sInput->isKeyPressed(Input::ARROW_RIGHT)) {
-		sprite_x += 10;
-	}
-	if (sInput->isKeyPressed(Input::ARROW_LEFT)) {
-		sprite_x -= 10;
-	}
-	if (sInput->isKeyPressed(Input::ARROW_DOWN)) {
-		sprite_y += 10;
-	}
-	if (sInput->isKeyPressed(Input::ARROW_UP)) {
-		sprite_y -= 10;
 	}
 	
 	if (sInput->isKeyPressed(Input::ESCAPE))
@@ -98,6 +89,27 @@ void SceneGame::renderBegin(){
 }
 
 void SceneGame::render(){
+	
+	for (size_t i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			
+			if (mpCollisionMap[i][j] == true)
+			{
+				Wall_sprite_x = j * TILE_SIZE;
+				Wall_sprite_y = i * TILE_SIZE;
+				sRenderer->drawSprite(Wall_sprite_id, Wall_sprite_x, Wall_sprite_y, Wall_sprite_rect);
+			}
+			else
+			{
+				Floor_sprite_x = j * TILE_SIZE;
+				Floor_sprite_y = i * TILE_SIZE;
+
+				sRenderer->drawSprite(Floor_sprite_id, Floor_sprite_x, Floor_sprite_y, Floor_sprite_rect);
+			}
+		}
+	}
 	sRenderer->drawSprite(sprite_id, sprite_x, sprite_y, sprite_rect);
 	player->render();
 	//sRenderer->drawRectangle(rect2 , Color{ 0,255,0 });
@@ -122,19 +134,19 @@ void SceneGame::initMap(){
 
 	std::string line;
 	std::getline(Map, line);
-	int width = atoi(line.c_str());
+	width = atoi(line.c_str());
 	std::getline(Map, line);
-	int height = atoi(line.c_str());
+	height = atoi(line.c_str());
 
 	std::vector<Entity*> background;
 	std::vector<Entity*> foreground;
 
 	mpCollisionMap.resize(height);
-	for (size_t i = 0; i < height; i++)
+	for (int i = 0; i < height; i++)
 	{
 		mpCollisionMap[i].resize(width, false);
 		std::getline(Map, line);
-		for (size_t j = 0; j < width; j++)
+		for (int j = 0; j < width; j++)
 		{
 			char a_char = line[j];
 			switch (a_char) {
@@ -145,6 +157,7 @@ void SceneGame::initMap(){
 				//crear Player
 				player->init(j * TILE_SIZE, i * TILE_SIZE);
 				player->setCollisionsMap(&mpCollisionMap, width, height);
+				
 				break;
 			case '.':
 			
@@ -176,7 +189,32 @@ void SceneGame::initMap(){
 				//crear Cofre
 
 				break;
+			case '1':
+				//Guardar mapa anterior
+				//SaveCurrentMap('1');
+				//LoadNextMap('1');
 				
+				break;
+			case '2':
+				//SaveCurrentMap('2');
+				//LoadNextMap('2');
+				break;
+			case '3':
+				//SaveCurrentMap('3');
+				//LoadNextMap('3');
+				break;
+			case '4':
+				//SaveCurrentMap('4');
+				//LoadNextMap('4');
+				break;
+			case '5':
+				//SaveCurrentMap('5');
+				//LoadNextMap('5');
+				break;
+			case '6':
+				//SaveCurrentMap('6');
+				//LoadNextMap('6');
+				break;
 			}
 		}
 	}
@@ -197,6 +235,71 @@ void SceneGame::StartGame(){
 		// Y borrar player status
 	}
 }
+
+void SceneGame::LoadNextMap(char NextMap){
+	std::fstream LoadMap;
+	LoadMap.open("map_1_saved.txt", std::ios::in);
+	if (LoadMap.is_open())
+	{
+		//cargar mapa
+	}
+	else
+	{
+		LoadMap.open("map_1.txt", std::ios::in);
+		//cargar mapa
+	}
+}
+
+void SceneGame::SaveCurrentMap(char NextMap){
+	
+	std::fstream SaveMap;
+	std::string CurrentNextMap;
+	switch (NextMap){
+	case '1':
+
+		break;
+	case '2':
+
+		break;
+	case '3':
+		
+		break;
+	case '4':
+		
+		break;
+	case '5':
+		
+		break;
+	case '6':
+		
+		break;
+
+	default:
+		break;
+	}
+	SaveMap.open(CurrentNextMap, std::ios::out | std::ios::trunc);
+	if (!SaveMap.is_open()){
+		CurrentNextMap;
+	}
+	SaveMap << width << "\n";
+	SaveMap << height;
+
+	for (size_t i = 0; i < height; i++){
+		for (size_t j = 0; j < width; j++)
+		{
+			if (mpCollisionMap[i][j] == true)
+			{
+				map[i][j] = '#';
+			}
+			else if(i == player->GetMapPosY() && j == player->GetMapPosX())
+			{
+				//Falta guardar enemigos y posicion de objetos
+			}
+		}
+	}
+
+}
+
 
 void SceneGame::SaveLastMapStaus(){
 	//Guardar el estado del mapa (enemigos, objetos ...) en el archivo de Maps/LastMapSaved.txt

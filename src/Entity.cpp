@@ -38,6 +38,10 @@ void Entity::update(){
 	}else{
 		mpMoving = false;
 	}
+
+	sprite_x = mpRect.x;
+	sprite_y = mpRect.y;
+
 }
 
 void Entity::render(){
@@ -158,4 +162,15 @@ bool Entity::checkCollisionsWithMap(){
 	}
 	return (*mpColMap)[checkY][checkX];
 	
+}
+
+int Entity::GetMapPosX()
+{
+
+	return mpRect.x / 32;
+}
+
+int Entity::GetMapPosY()
+{
+	return mpRect.y / 32;
 }
