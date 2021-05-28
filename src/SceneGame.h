@@ -2,7 +2,12 @@
 #define SCENEGAME_H
 
 #include "Scene.h"
+#include "Utils.h"
 #include "Link.h"
+#include "Door.h"
+#include "Mele.h"
+#include "Random.h"
+#include "Gems.h"
 #include "Entity.h"
 
 class SceneGame : public Scene
@@ -30,9 +35,10 @@ class SceneGame : public Scene
 		
 		void initMap();
 		void StartGame();
-		void LoadNextMap(char NextMap);
-		void SaveCurrentMap(char NextMap);
+		void SaveCurrentMap();
+		void LoadNextMap();
 		void SaveLastMapStaus();
+
 
 	private:
 		C_Rectangle		rect1;
@@ -56,17 +62,19 @@ class SceneGame : public Scene
 		int				Floor_sprite_y;
 		C_Rectangle		Floor_sprite_rect;
 
-		int				Door_sprite_id;
-		int				Door_sprite_x;
-		int				Door_sprite_y;
-		C_Rectangle		Door_sprite_rect;
+		std::string		NextLoadMap;
+		std::string		NextLoadSavedMap;
+		int				NextMap;
+
 
 		std::vector<std::vector <char> > map;
 		std::vector<std::vector<bool>> mpCollisionMap;
+		int EnemiesVectorPos[10];
 		std::string CurrentMap;
-
+		int loadedMap;
 
 		Link* player;
+		std::vector<Entity*>mEntities;
 };
 
 

@@ -5,7 +5,7 @@
 
 
 SceneGame::SceneGame() : Scene(){
-
+	init();
 }
 
 SceneGame::~SceneGame(){
@@ -16,8 +16,8 @@ void SceneGame::preLoad(){
 
 }
 
-void SceneGame::unLoad()
-{
+void SceneGame::unLoad(){
+	
 }
 /* --!
 	*
@@ -68,15 +68,44 @@ void SceneGame::updateBegin(){
 void SceneGame::update() {
 	player->update();
 
-	if (sInput->isKeyPressed(Input::BACKSPACE)) {
+	if (sInput->isKeyPressed(Input::ESCAPE)) {
 		sDirector->goBack();
 	}
+	int Size = mEntities.size();
+	for (size_t i = 0; i < Size; i++)
+	{
+		if (mEntities[i]->isAlive()) {
+			mEntities[i]->update();
+			C_Rectangle rectEntity = mEntities[i]->getRect();
+			int collision = player->collidesWithEntity(mEntities[i]);
+			switch (collision)
+			{
+			default:
+				break;
+
+			case MELE:
+				//quitar vida al player
+				break;
+			case RANDOM:
+				//quitar vida al player
+				break;
+			case DOOR:
+				SaveCurrentMap();
+				LoadNextMap();
+				//SetNewPlayerPos();
+				initMap();
+				break;
+			case GEMS:
+
+				break;
+			}
+
+		}
+	}
 	
-	if (sInput->isKeyPressed(Input::ESCAPE))
+	if (/*Si los enemigos estan muertos abrir las puertas y quitar la colision del mapa*/true)
 	{
 
-
-		sDirector->changeScene(SceneDirector::MAIN_MENU, false);
 	}
 }
 
@@ -90,7 +119,7 @@ void SceneGame::renderBegin(){
 
 void SceneGame::render(){
 	
-	for (size_t i = 0; i < height; i++)
+	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
 		{
@@ -157,29 +186,36 @@ void SceneGame::initMap(){
 				//crear Player
 				player->init(j * TILE_SIZE, i * TILE_SIZE);
 				player->setCollisionsMap(&mpCollisionMap, width, height);
-				
+
 				break;
-			case '.':
-			
+			case 'G':
+				{
+				Gems* aGem = new Gems;
+				aGem->init(j * TILE_SIZE, i * TILE_SIZE);
+				background.push_back(aGem);
+
 				//crear Gema
+				}	
 				break;
-			
+
 
 			case 'O':
-			
+			{
 				//crear Enemigo 1
-				
-				break;
+				Mele* aMele = new Mele;
+				aMele->init(j * TILE_SIZE, i * TILE_SIZE, j * TILE_SIZE, i * TILE_SIZE);
+				aMele->setCollisionsMap(&mpCollisionMap, width, height);
+				foreground.push_back(aMele);
+			}	break;
 			case 'F':
+			{
+				Random* aRandom = new Random;
+				aRandom->init(j * TILE_SIZE, i * TILE_SIZE);
+				aRandom->setCollisionsMap(&mpCollisionMap, width, height);
+				foreground.push_back(aRandom);
 				//crear Enemigo 2
-				
-				break;
 
-			
-			case 'J':
-				//crear Enemigo 3
-
-				break;
+			}	break;
 
 			case 'K':
 				//crear Llave
@@ -190,34 +226,66 @@ void SceneGame::initMap(){
 
 				break;
 			case '1':
-				//Guardar mapa anterior
-				//SaveCurrentMap('1');
-				//LoadNextMap('1');
-				
-				break;
+			{
+				//new Door
+				Door* aDoor1 = new Door;
+				aDoor1->init(j * TILE_SIZE, i * TILE_SIZE);				
+				NextMap = 1;
+				mpCollisionMap[i][j] = true;
+				map[i][j] = '1';
+				foreground.push_back(aDoor1);
+			}	break;
 			case '2':
-				//SaveCurrentMap('2');
-				//LoadNextMap('2');
-				break;
+			{
+				Door* aDoor2 = new Door;
+				aDoor2->init(j * TILE_SIZE, i * TILE_SIZE);
+				NextMap = 2;
+				mpCollisionMap[i][j] = true;
+				map[i][j] = '2';
+				foreground.push_back(aDoor2);
+			}	break;
 			case '3':
-				//SaveCurrentMap('3');
-				//LoadNextMap('3');
-				break;
+				{
+				Door* aDoor3 = new Door;
+				aDoor3->init(j * TILE_SIZE, i * TILE_SIZE);
+				NextMap = 3;
+				mpCollisionMap[i][j] = true;
+				map[i][j] = '3';
+				foreground.push_back(aDoor3);
+				}break;
 			case '4':
-				//SaveCurrentMap('4');
-				//LoadNextMap('4');
-				break;
+			{
+				Door* aDoor4 = new Door;
+				aDoor4->init(j * TILE_SIZE, i * TILE_SIZE);
+				NextMap = 4;
+				mpCollisionMap[i][j] = true;
+				map[i][j] = '4';
+				foreground.push_back(aDoor4);
+			}	break;
 			case '5':
-				//SaveCurrentMap('5');
-				//LoadNextMap('5');
-				break;
+			{
+				Door* aDoor5 = new Door;
+				aDoor5->init(j * TILE_SIZE, i * TILE_SIZE);
+				NextMap = 5;
+				mpCollisionMap[i][j] = true;
+				map[i][j] = '5';
+				foreground.push_back(aDoor5);
+			}	break;
 			case '6':
-				//SaveCurrentMap('6');
-				//LoadNextMap('6');
-				break;
+			{
+				Door* aDoor6 = new Door;
+				aDoor6->init(j * TILE_SIZE, i * TILE_SIZE);
+				NextMap = 6;
+				mpCollisionMap[i][j] = true;
+				map[i][j] = '6';
+				foreground.push_back(aDoor6);
+			}	break;
+			
 			}
 		}
 	}
+	std::getline(Map, line);
+	loadedMap = atoi(line.c_str());
 	Map.close();
 }
 
@@ -236,73 +304,179 @@ void SceneGame::StartGame(){
 	}
 }
 
-void SceneGame::LoadNextMap(char NextMap){
-	std::fstream LoadMap;
-	LoadMap.open("map_1_saved.txt", std::ios::in);
-	if (LoadMap.is_open())
-	{
-		//cargar mapa
-	}
-	else
-	{
-		LoadMap.open("map_1.txt", std::ios::in);
-		//cargar mapa
-	}
-}
-
-void SceneGame::SaveCurrentMap(char NextMap){
+void SceneGame::SaveCurrentMap(){
 	
 	std::fstream SaveMap;
-	std::string CurrentNextMap;
-	switch (NextMap){
-	case '1':
-
+	std::string CurrentSaveMap;
+	switch (loadedMap){
+	case 1:
+		CurrentSaveMap = "Assets/map_1_saved.txt";
 		break;
-	case '2':
-
+	case 2:
+		CurrentSaveMap = "Assets/map_2_saved.txt";
 		break;
-	case '3':
-		
+	case 3:
+		CurrentSaveMap = "Assets/map_3_saved.txt";
 		break;
-	case '4':
-		
+	case 4:
+		CurrentSaveMap = "Assets/map_4_saved.txt";
 		break;
-	case '5':
-		
+	case 5:
+		CurrentSaveMap = "Assets/map_5_saved.txt";
 		break;
-	case '6':
-		
+	case 6:
+		CurrentSaveMap = "Assets/map_6_saved.txt";
 		break;
 
 	default:
 		break;
 	}
-	SaveMap.open(CurrentNextMap, std::ios::out | std::ios::trunc);
-	if (!SaveMap.is_open()){
-		CurrentNextMap;
+
+	SaveMap.open(CurrentSaveMap, std::ios::out | std::ios::trunc);
+	if (!SaveMap.is_open()) {
+		std::cout << "Error Guardando el mapa" << std::endl;
 	}
 	SaveMap << width << "\n";
 	SaveMap << height;
 
-	for (size_t i = 0; i < height; i++){
-		for (size_t j = 0; j < width; j++)
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++)
 		{
-			if (mpCollisionMap[i][j] == true)
+			if (map[i][j] != '1' && map[i][j] != '2' && map[i][j] != '3' && map[i][j] != '4' && map[i][j] != '5' && map[i][j] != '6')
 			{
-				map[i][j] = '#';
+				map[i][j] = '*';
+				if (mpCollisionMap[i][j] == true)
+				{
+					map[i][j] = '#';
+				}
+
 			}
-			else if(i == player->GetMapPosY() && j == player->GetMapPosX())
+			
+			for (int c = 0; c < mEntities.size(); c++)
 			{
-				//Falta guardar enemigos y posicion de objetos
+				if (mEntities[c]->GetMapPosX() == j && mEntities[c]->GetMapPosY()) {
+					switch (mEntities[c]->getClassName()) {
+					case GEMS:
+						map[i][j] = 'E';
+						break;
+
+					default:
+						break;
+					}
+				}
 			}
 		}
 	}
+	SaveMap << "\n" << loadedMap; 
+
+	//guardar inventario
+	SaveMap.close();
 
 }
 
+void SceneGame::LoadNextMap() {
+
+	switch (NextMap){
+	case '1':
+		NextLoadMap = "Assets/map_1.txt";
+		NextLoadSavedMap = "Assets/map_1_saved.txt";
+		break;
+	case '2':
+		NextLoadMap = "Assets/map_2.txt";
+		NextLoadSavedMap = "Assets/map_2_saved.txt";
+		break;
+	case '3':
+		NextLoadMap = "Assets/map_3.txt";
+		NextLoadSavedMap = "Assets/map_3_saved.txt";
+		break;
+	case '4':
+		NextLoadMap = "Assets/map_4.txt";
+		NextLoadSavedMap = "Assets/map_4_saved.txt";
+		break;
+	case '5':
+		NextLoadMap = "Assets/map_5.txt";
+		NextLoadSavedMap = "Assets/map_5_saved.txt";
+		break;
+	case '6':
+		NextLoadMap = "Assets/map_6.txt";
+		NextLoadSavedMap = "Assets/map_6_saved.txt";
+		break;
+
+	default:
+		break;
+	}
+	std::fstream LoadMap;
+	LoadMap.open(NextLoadSavedMap, std::ios::in);
+	if (!LoadMap.is_open())
+	{
+		LoadMap.open(NextLoadMap, std::ios::in);
+	}
+
+	if (LoadMap.is_open())
+	{
+		//cargar mapa
+		CurrentMap = NextLoadMap;
+	}
+	else{
+		std::cout << "Error Loading Map" << std::endl;
+	}
+
+
+
+	LoadMap.close();
+}
 
 void SceneGame::SaveLastMapStaus(){
 	//Guardar el estado del mapa (enemigos, objetos ...) en el archivo de Maps/LastMapSaved.txt
 	//Guardar el estado del jugador(Posicion, objetos, vida ...)
+
+	std::fstream SaveMap;
+	std::string CurrentNextMap;
+
+	SaveMap.open("Assets/", std::ios::out | std::ios::trunc);
+	if (!SaveMap.is_open()) {
+		std::cout << "Error Guardando el mapa" << std::endl;
+	}
+	SaveMap << width << "\n";
+	SaveMap << height;
+
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++)
+		{
+			map[i][j] = '*';
+			if (mpCollisionMap[i][j] == true)
+			{
+				map[i][j] = '#';
+			}
+			if (player->GetMapPosX() == j && player->GetMapPosY() == i)
+			{
+				map[i][j] = 'P';
+			}
+			for (int c = 0; c < mEntities.size(); c++)
+			{
+				if (mEntities[c]->GetMapPosX() == j && mEntities[c]->GetMapPosY()) {
+					switch (mEntities[c]->getClassName()) {
+					case MELE:
+						map[i][j] = 'O';
+						break;
+					case RANDOM:
+						map[i][j] = 'F';
+						break;
+					case DOOR:
+
+						break;
+					case GEMS:
+						map[i][j] = 'E';
+						break;
+
+					default:
+						break;
+					}
+				}
+			}
+		}
+	}
+	SaveMap << "\n" << loadedMap;
+	SaveMap.close();
 }
 

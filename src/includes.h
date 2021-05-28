@@ -18,7 +18,7 @@
 #define TILE_SIZE 32
 
 
-enum Classes { NOTHING, ENTITY, LINK, DOOR };
+enum Classes { NOTHING, ENTITY, LINK, MELE, RANDOM, DOOR, GEMS };
 
 //! Struct C_Rectangle.
 typedef struct { 

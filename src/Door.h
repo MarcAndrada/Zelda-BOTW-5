@@ -4,9 +4,7 @@
 #include "Utils.h"
 #include "Entity.h"
 
-
 class Door : public Entity{
-
 public:
 	Door();
 	~Door();
@@ -14,9 +12,18 @@ public:
 	void update();
 	void render();
 	Classes getClassName() { return DOOR; };
+	bool IsOpen();
+	void OpenDoor();
+
 protected:
-	
-	
-		
+
+	bool			Open;
+	int				ClosedDoor_sprite_id;
+
+
+
 };
+
+
+#endif
 
