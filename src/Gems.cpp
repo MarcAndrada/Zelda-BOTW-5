@@ -14,6 +14,9 @@ void Gems::init(int x, int y){
 	sprite_rect = C_Rectangle{ 0,0,32, 32 };
 	mpRect.x = x;
 	mpRect.y = y;
+	mpXtoGo =  x;
+	mpYtoGo = y;
+
 }
 
 void Gems::update(){

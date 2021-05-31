@@ -43,7 +43,9 @@ SoundManager::SoundManager()
 	}
 	mCurretSoundIndex = 0;
 	mSoundVector.resize(MAX_SOUNDS, NULL);
-	mCurrentBGM = NULL;
+	sf::Music* aMusic = new sf::Music();
+	aMusic->openFromFile("Assets/Audios/zeldasong.ogg");
+	mCurrentBGM = aMusic;
 }
 
 SoundManager::~SoundManager()

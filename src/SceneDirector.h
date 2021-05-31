@@ -7,7 +7,7 @@
 class SceneDirector
 {
 	public:
-		enum SceneEnum { MAIN_MENU, RESUME_GAME, NEW_GAME, /*GAME_OVER, WIN,*/ LAST_NO_USE};
+		enum SceneEnum { MAIN_MENU, RESUME_GAME, NEW_GAME,GAME_OVER, WIN, LAST_NO_USE };
 
 		SceneDirector();
 		~SceneDirector();
@@ -23,6 +23,7 @@ class SceneDirector
 		void initScenes();
 		static SceneDirector* instance;
 		Scene*				mCurrentScene;
+		char				mCurrentSceneChar;
 		std::vector<Scene*> mScenes;
 		std::stack<Scene*>	mSceneHistory;
 };

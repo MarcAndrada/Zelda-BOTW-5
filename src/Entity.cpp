@@ -28,7 +28,8 @@ void Entity::init(int x, int y){
 	mpXtoGo = x;
 	mpYtoGo = y;
 
-
+	NextMap = 0;
+	mpAlive = true;
 }
 
 void Entity::update(){
@@ -41,6 +42,7 @@ void Entity::update(){
 
 	sprite_x = mpRect.x;
 	sprite_y = mpRect.y;
+	TimePassedDamaged += global_delta_time;
 
 }
 
@@ -66,11 +68,9 @@ int Entity::collidesWithEntity(Entity* ent){
 	
 }
 
-
 void Entity::setAlive(bool alive){
 	mpAlive = alive;
 }
-
 
 Directions Entity::getNextDirection(){
 	return NONE;
@@ -167,10 +167,35 @@ bool Entity::checkCollisionsWithMap(){
 int Entity::GetMapPosX()
 {
 
-	return mpRect.x / 32;
+	return mpXtoGo / TILE_SIZE;
 }
 
 int Entity::GetMapPosY()
 {
-	return mpRect.y / 32;
+	return mpYtoGo / TILE_SIZE;
+}
+
+void Entity::TakeHit(){
+	
+	if (TimePassedDamaged >= TimeDamaged) {
+		HP--;
+		if (HP <= 0) {
+			setAlive(false);
+		}
+		TimePassedDamaged = 0;
+	}
+
+}
+
+void Entity::SetTargetPos(int X, int Y){
+
+}
+
+void Entity::SetNextMap(int nextMap){
+	NextMap = nextMap;
+}
+
+int Entity::GetNextMap()
+{
+	return NextMap;
 }

@@ -8,6 +8,8 @@
 #include "Mele.h"
 #include "Random.h"
 #include "Gems.h"
+#include "Key.h"
+#include "Chest.h"
 #include "Entity.h"
 
 class SceneGame : public Scene
@@ -36,7 +38,7 @@ class SceneGame : public Scene
 		void initMap();
 		void StartGame();
 		void SaveCurrentMap();
-		void LoadNextMap();
+		void LoadNextMap(Entity* ent);
 		void SaveLastMapStaus();
 
 
@@ -62,10 +64,55 @@ class SceneGame : public Scene
 		int				Floor_sprite_y;
 		C_Rectangle		Floor_sprite_rect;
 
+		int			Gem_img_id;
+		int			Gem_img_sprite_x;
+		int			Gem_img_sprite_y;
+		C_Rectangle Gem_img_sprite_rect;
+		
+		int Key_img_id;
+		int Key_HUD_img_id;
+		int Key_img_sprite_x;
+		int Key_img_sprite_y;
+		C_Rectangle Key_img_sprite_rect;
+
+		int			Heart_img_id;
+		int			Heart_img_sprite_x;
+		int			Heart_img_sprite_y;
+		C_Rectangle Heart_img_sprite_rect;
+		
+		int Zero_img_id;
+		int One_img_id;
+		int Two_img_id;
+		int Three_img_id;
+		int Four_img_id;
+		int Five_img_id;
+		int Six_img_id;
+		int Seven_img_id;
+		int Eight_img_id;
+		int Nine_img_id;
+		int Ten_img_id;
+		int Eleven_img_id;
+		int Twelve_img_id;
+		int ThirdTeen_img_id;
+		int FourTeen_img_id;
+		int FiveTeen_img_id;
+		
+		int  Heart_num_img_sprite_x;
+		int  Heart_num_img_sprite_y;
+		C_Rectangle Heart_num_img_sprite_rect;
+
+		int  Gem_num_img_sprite_x;
+		int  Gem_num_img_sprite_y;
+		C_Rectangle Gem_num_img_sprite_rect;
+
+
+
 		std::string		NextLoadMap;
 		std::string		NextLoadSavedMap;
 		int				NextMap;
 
+		int				TotalEnemies;
+		int				EnemiesDead;
 
 		std::vector<std::vector <char> > map;
 		std::vector<std::vector<bool>> mpCollisionMap;
@@ -75,6 +122,9 @@ class SceneGame : public Scene
 
 		Link* player;
 		std::vector<Entity*>mEntities;
+		int chestTimePassed;
+		int chestTime = 2000;
+
 };
 
 

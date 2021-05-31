@@ -29,6 +29,7 @@ class SceneMenu : public Scene
 		virtual void renderEnd();
 
 		virtual void renderGUI();
+		virtual void deleteAllSavedMaps();
 
 	private:
 		int				menu_img_id;

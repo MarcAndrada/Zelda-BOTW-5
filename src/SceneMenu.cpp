@@ -61,6 +61,7 @@ void SceneMenu::update(){
 				break;
 			case NEW_GAME:
 				if (sInput->isKeyPressed(Input::SPACE)) {
+					deleteAllSavedMaps();
 					sDirector->changeScene(SceneDirector::NEW_GAME, false);
 					sGame = sDirector->getGameScene();
 
@@ -109,3 +110,15 @@ void SceneMenu::renderEnd(){
 void SceneMenu::renderGUI(){
 
 }
+
+void SceneMenu::deleteAllSavedMaps(){
+	remove("Maps/LastMapSaved.txt");
+	remove("Maps/map_1_saved.txt");
+	remove("Maps/map_2_saved.txt");
+	remove("Maps/map_3_saved.txt");
+	remove("Maps/map_4_saved.txt");
+	remove("Maps/map_5_saved.txt");
+	remove("Maps/map_6_saved.txt");
+}
+
+

@@ -21,6 +21,10 @@ public:
 	void setAlive(bool alive);
 	int GetMapPosX();
 	int GetMapPosY();
+	virtual void TakeHit();
+	virtual void SetTargetPos(int X, int Y);
+	void SetNextMap(int nextMap);
+	int GetNextMap();
 
 protected:
 
@@ -39,6 +43,9 @@ protected:
 	int mpXtoGo;
 	int mpYtoGo;
 	bool mpAlive;
+	int HP;
+	float TimePassedDamaged = 0;
+	float TimeDamaged = 1000;
 
 
 	int				sprite_id;
@@ -47,7 +54,7 @@ protected:
 	int				sprite_frame_time;
 	int sprite_x;
 	int sprite_y;
-
+	int NextMap;
 	
 };
 

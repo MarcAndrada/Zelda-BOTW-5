@@ -18,7 +18,7 @@
 #define TILE_SIZE 32
 
 
-enum Classes { NOTHING, ENTITY, LINK, MELE, RANDOM, DOOR, GEMS };
+enum Classes { NOTHING, ENTITY, LINK, MELE, RANDOM, DOOR, GEMS, KEY, CHEST };
 
 //! Struct C_Rectangle.
 typedef struct { 
@@ -29,12 +29,14 @@ typedef struct {
 } C_Rectangle;
 
 //! Struct Color
+
 typedef struct {
 	unsigned char r;
 	unsigned char g;
 	unsigned char b;
 
 }Color;
+
 //! Struct Point.
 /*! A point in 2D. */
 struct Point { 

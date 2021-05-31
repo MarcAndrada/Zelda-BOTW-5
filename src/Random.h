@@ -13,7 +13,10 @@ public:
 	void update();
 	void render();
 	Classes getClassName() { return RANDOM; };
+	void TakeHit();
+
 protected:
+	Directions getNextDirection();
 
 
 };

@@ -46,4 +46,4 @@ class Input
         bool key_released[LAST_NO_USE];
 };
 
-#endif#pragma once
+#endif

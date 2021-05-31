@@ -18,7 +18,6 @@ public:
 protected:
 
 	bool			Open;
-	int				ClosedDoor_sprite_id;
 
 
 

@@ -3,8 +3,8 @@
 //Incluir escenas del juego
 #include"SceneMenu.h"
 #include"SceneGame.h"
-
-
+#include "SceneWin.h"
+#include "SceneEnd.h"
 
 SceneDirector* SceneDirector::instance = NULL;
 
@@ -30,6 +30,19 @@ void SceneDirector::changeScene(SceneEnum next_scene, bool load_on_return, bool 
 	}
 
 	mCurrentScene = mScenes[next_scene];
+	switch (next_scene)
+	{
+	case SceneDirector::RESUME_GAME:
+		mCurrentSceneChar = 'R';
+		break;
+	case SceneDirector::NEW_GAME:
+		mCurrentSceneChar = 'N';
+
+		break;
+
+	default:
+		break;
+	}
 }
 
 void SceneDirector::goBack(bool load_on_return){
@@ -56,7 +69,7 @@ bool SceneDirector::checkCurrentScene(char WantedScene)
 	switch (WantedScene)
 	{
 	case 'N':
-		if (mCurrentScene == mScenes[NEW_GAME]) {
+		if (mCurrentSceneChar == 'N') {
 			return true;
 		}
 		else {
@@ -65,7 +78,7 @@ bool SceneDirector::checkCurrentScene(char WantedScene)
 		break;
 
 	case 'R':
-		if (mCurrentScene == mScenes[RESUME_GAME]){
+		if (mCurrentSceneChar == 'R') {
 			return true;
 		}
 		else{
@@ -96,15 +109,16 @@ void SceneDirector::initScenes(){
 
 	mScenes[MAIN_MENU] = scene_menu;
 	
-	
-	for (int i = 0; i == MAIN_MENU; i++){
-		mScenes[i]->preLoad();
-	}
+	mScenes[MAIN_MENU]->preLoad();
 
 	mCurrentScene = mScenes[MAIN_MENU];
-	SceneGame* scene_game = new SceneGame();
+	SceneGame* scene_game = new SceneGame;
 	mScenes[RESUME_GAME] = scene_game;
 	mScenes[NEW_GAME] = scene_game;
+	SceneWin* scene_win = new SceneWin;
+	mScenes[WIN] = scene_win ;
+	SceneEnd* scene_lose = new SceneEnd;
+	mScenes[GAME_OVER] = scene_lose;
 
 	for (int i = MAIN_MENU + 1; i < LAST_NO_USE; i++) {
 		mScenes[i]->preLoad();
